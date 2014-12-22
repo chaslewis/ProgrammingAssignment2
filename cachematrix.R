@@ -3,11 +3,10 @@
 #   result of a potentially long-running computation.  In this case, the computation is 
 #   inverting a matrix.
 # The overall approach is to
-#   - Call a set-up function that creates a closure for the cached value and its key.
-#     It will expose methods to assign the key and save and retreive the cached value.
-#   - Call a function to perform the desired computation (matrix invere); it will use 
-#     the first function to retrieve the result, if cached, or comptue and save it, 
-#     before returning it.
+#   - Call a set-up function (passing the matrix) that creates a closure for the cached 
+#     value and its key.  It will expose methods to save and retreive the cached value.
+#   - Then call a function to perform the desired computation (matrix invere); call it with
+#     the result of the first function rather than just a matrix, enabling the caching.
 
 # illustration of use:
 # mx <- c(8, 1, 6, 3, 5, 7, 4, 9, 2)
@@ -22,8 +21,8 @@
 #    - the use case is caching a matrix inverse but this construct is actually 
 #      flexible and general purpose
 #    - encapsulated data members:
-#       x = the cached value of the matrix
-#       i = the cached inverse of the matrix (initially  NULL)
+#       mat = the cached value of the matrix
+#       inv = the cached inverse of the matrix (initially  NULL)
 #    - methods (getters/setters)
 #       set = function to accept and save the matrix, and reset the inverse (to NULL)
 #       get = function to return the cached matrix
